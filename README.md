@@ -1,3 +1,16 @@
+# Lecture 5: Bearbeitung Übungsblatt und Abgabe
+## Summary
+- [x] Forken Sie das Repository (Link siehe unten)
+- [x] Bearbeiten Sie die Aufgaben in Ihrem Fork
+– [x] Dokumentieren Sie Ihre Lösungen im README.md
+– [x] Fügen Sie den Link zu Ihrem geforkten Repository im README hinzu
+
+## Aufgabe 1: Modify the Docker Setup
+### Take a screenshot showing the tasks table
+![The screenshot showing the DB table.](./assets/dbtable.png)
+
+
+
 # Lecture 5: Docker & Kubernetes Demo
 
 > DevOps for Cyber-Physical Systems | University of Bern
