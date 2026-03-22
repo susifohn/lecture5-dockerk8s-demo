@@ -59,6 +59,67 @@ Then the image is on [docker hub](https://hub.docker.com/repositories/sunpiter)
 
 ![docker stats](./assets/stats.png)
 
+## Aufgabe 3a: Deploy the Application
+Using the following commands:
+```
+kubectl apply -f k8s-backend.yaml
+kubectl apply -f k8s-web.yaml
+docker build -t sunpiter/lecture5-webapp:v1.0 -f .\Dockerfile.slim .
+docker push sunpiter/lecture5-webapp:v1.0
+-- after changing the username in the k8s-web.yaml do
+kubectl apply -f .\k8s-web.yaml
+```
+![Repo](./assets/pusha3.png)
+
+I did not install minikube but used Docker Desktop with kubernetes, as this is mentioned in the Exercise as possible alternative. Commands:
+```
+kubectl port-forward service/lecture5-web-service 8080:80
+kubectl get pods
+```
+![Pods](./assets/pods.png)
+
+
+Accessing the app in the Browser using *http://localhost:8080*
+
+![Tasks](./assets/tasks.png)
+
+## Aufgabe 3b: Scale ans Test Load Balancing
+Command:
+```
+kubectl scale deployment lecture5-web –replicas=5
+deployment.apps/lecture5-web scaled
+
+python test_load_balancing.py
+```
+
+Has to run the following first to get all required packages:
+
+```
+pip install -r requirements.txt
+kubectl port-forward service/lecture5-web-service 63501:80
+```
+
+Then running:
+```
+python test_load_balancing.py
+```
+shows
+![Test load balancer](./assets/testlb.png)
+
+After research in the www I got the following Answer after trying some other options:
+
+*Docker Desktop on Windows simply doesn't expose NodePorts to the host — this is a known limitation. A real cloud cluster (GKE, EKS, AKS) or Linux-based Minikube would not have this problem.*
+
+Thus it seems on my machine using Docker Desktop and Kubernetes and not Minikube, is a limitation. 
+
+### How does Kubernetes distrubute traffic?
+Kubernetes distributes traffic through a Service object, which acts as a stable virtual IP (ClusterIP) in front of a group of pods. When a request hits the Service, kube-proxy running on each node intercepts it and forwards it to one of the matching pods using round-robin load balancing by default. This means each pod gets roughly an equal share of requests, and if a pod dies Kubernetes automatically stops sending traffic to it and redistributes to the remaining healthy pods.
+
+## Aufgabe 3c: Self-Healing
+
+### Why is self healing important
+Self-healing is important because in a real production environment pods can crash at any time due to bugs, memory leaks, hardware failures, or network issues. Kubernetes automatically detects failed pods and restarts or replaces them without any manual intervention, ensuring the application stays available. This removes the need for an operator to monitor and manually restart services 24/7, which is the core promise of a resilient, production-grade system.
+
 # Lecture 5: Docker & Kubernetes Demo
 
 > DevOps for Cyber-Physical Systems | University of Bern
