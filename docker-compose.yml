@@ -12,13 +12,45 @@ version: '3.8'
 
 services:
   # ----------------------------------------------------------
-  # WEB APPLICATION
+  # WEB APPLICATION ,slim and alpine
   # ----------------------------------------------------------
-  web:
-    build: .
-    container_name: lecture5-web
+  web-slim:
+    build:
+      context: .
+      dockerfile: Dockerfile.slim
+    container_name: lecture5-web-slim
     ports:
       - "5000:5000"
+    environment:
+      - FLASK_DEBUG=true
+      - SECRET_KEY=lecture5-demo-key
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=taskdb
+      - DB_USER=taskuser
+      - DB_PASSWORD=taskpass
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - ./app.py:/app/app.py:ro
+      - ./templates:/app/templates:ro
+      - ./assets:/app/assets:ro
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  web-alpine:
+    build:
+      context: .
+      dockerfile: Dockerfile.alpine
+    container_name: lecture5-web-alpine
+    ports:
+      - "5001:5000"
     environment:
       - FLASK_DEBUG=true
       - SECRET_KEY=lecture5-demo-key

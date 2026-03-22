@@ -1,15 +1,39 @@
 # Lecture 5: Bearbeitung Übungsblatt und Abgabe
+
+## Link of forked GitHub Repo
+[Link](https://github.com/susifohn/lecture5-dockerk8s-demo)
+## Docker Hub Username
+sunpiter
 ## Summary
 - [x] Forken Sie das Repository (Link siehe unten)
 - [x] Bearbeiten Sie die Aufgaben in Ihrem Fork
-– [x] Dokumentieren Sie Ihre Lösungen im README.md
-– [x] Fügen Sie den Link zu Ihrem geforkten Repository im README hinzu
+- [x] Dokumentieren Sie Ihre Lösungen im README.md
+- [x] Fügen Sie den Link zu Ihrem geforkten Repository im README hinzu
 
-## Aufgabe 1: Modify the Docker Setup
+
+
+## Aufgabe 1a: Modify the Docker Setup
 ### Take a screenshot showing the tasks table
 ![The screenshot showing the DB table.](./assets/dbtable.png)
 
 
+## Aufgabe 1b: Change the Base Image
+### a) What changes are needed to make it work with Alpine?
+One has to change the 'FROM python:3.11-slim' to '3.11-alpine' in the Dockercompose file.
+### b) Build both versions and compare sizes using docker images
+To build both, it's maybe best, to create two Dockerfiles, one for slim and one for alpine. Then in the docker-compose.yml define two web services each using its specific Dokerfile. 
+### c) Document the size difference and any build issues you encountered
+To build the images, just run: docker compose build. There were no build issues.
+
+To show the images run: docker images, which gives
+
+```
+lecture5-dockerk8s-demo-web-alpine:latest  e590a4ee8f33        127MB         31.2MB
+lecture5-dockerk8s-demo-web-slim:latest    1b26da55e1c7        232MB         56.8MB
+```
+Thus slim has image size of 232MB and alpine 127MB. 
+
+No build issues encountered.
 
 # Lecture 5: Docker & Kubernetes Demo
 
