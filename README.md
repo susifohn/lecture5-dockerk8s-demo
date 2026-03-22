@@ -35,6 +35,30 @@ Thus slim has image size of 232MB and alpine 127MB.
 
 No build issues encountered.
 
+## Aufgabe 2a: Image Tagging and Registry
+Tagging using:
+```
+docker build -t task-app:v1.0 -f Dockerfile.slim .
+```
+Then the image 'task-app:v1.0' is created.
+
+Using Docker Hub username: *sunpiter* the commands to push the image are as follows:
+```
+docker login
+docker tag task-app:v1.0 sunpiter/task-app:v1.0
+docker push sunpiter/task-app:v1.0
+```
+
+Then the image is on [docker hub](https://hub.docker.com/repositories/sunpiter)
+![docker hub repository.](./assets/dockerhub.png)
+
+## Aufgabe 2b: Container Inspection
+- **`docker compose logs web`** — stdout/stderr output of the web container (Flask logs, errors, startup messages)
+- **`docker inspect lecture5-web`** — detailed JSON dump of the container's configuration (network, mounts, env vars, state)
+- **`docker stats`** — live CPU/memory/network usage dashboard for all running containers, see screen shot below.
+
+![docker stats](./assets/stats.png)
+
 # Lecture 5: Docker & Kubernetes Demo
 
 > DevOps for Cyber-Physical Systems | University of Bern
